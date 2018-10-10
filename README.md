@@ -1,4 +1,4 @@
-# kvm_installation
+# KVM installation script
 
 KVM installation script for:
 * Ubuntu
