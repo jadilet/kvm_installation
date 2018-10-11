@@ -27,13 +27,13 @@ if [ $distributor = "Debian" ]; then
   case "$codename" in
   "stretch")
     echo "Installing KVM for $codename"
-    apt install -y qemu-kvm libvirt-clients libvirt-daemon-system
+    apt install -y -f qemu-kvm libvirt-clients libvirt-daemon-system
     adduser $user libvirt
     adduser $user libvirt-qemu
     ;;
   "jessie")
     echo "Installing KVM for $codename"
-    apt-get -y install qemu-kvm libvirt-bin
+    apt-get -y -f install qemu-kvm libvirt-bin
     adduser $user kvm
     adduser $user libvirt
     ;;
@@ -49,12 +49,12 @@ elif [ $distributor = "Ubuntu" ]; then
 
   if version_gt $version $LUCID; then
     echo "Installing KVM for later version of Ubuntu "$LUCID
-    apt-get install -y qemu-kvm libvirt-bin ubuntu-vm-builder bridge-utils
+    apt-get install -y -f qemu-kvm libvirt-bin ubuntu-vm-builder bridge-utils
      # Add users to group
     adduser $user libvirtd
   elif version_gt $KARMIC $version; then
     echo "Installing KVM for ealier version of Ubuntu "$KARMIC
-    aptitude install -y kvm libvirt-bin ubuntu-vm-builder bridge-utils
+    aptitude install -y -f kvm libvirt-bin ubuntu-vm-builder bridge-utils
     adduser $user kvm
     adduser $user libvirtd
   fi
@@ -62,7 +62,7 @@ elif [ $distributor = "Ubuntu" ]; then
   # You can test if your install has been successful with the following command:
   virsh list --all
 elif [ $distributor = "LinuxMint" ]; then
-  apt-get install qemu-kvm libvirt-bin bridge-utils
+  apt-get install -y -f qemu-kvm libvirt-bin bridge-utils
 
   # Log out and log back in as the user to make the group membership change effective.
   adduser $user libvirt
