@@ -5,7 +5,7 @@
 distributor=`lsb_release -i -s`
 version=`lsb_release -r -s`
 codename=`lsb_release -c -s`
-user=$1
+user=$SUDO_USER
 
 echo "------------------------"
 echo "Distributor ID: "$distributor
@@ -45,21 +45,16 @@ if [ $distributor = "Debian" ]; then
 elif [ $distributor = "Ubuntu" ]; then
   KARMIC=9.10
   LUCID=10.04
+  # After this, you need to relogin so that your user becomes an effective member of the libvirtd group.
 
   if version_gt $version $LUCID; then
     echo "Installing KVM for later version of Ubuntu "$LUCID
     apt-get install -y qemu-kvm libvirt-bin ubuntu-vm-builder bridge-utils
+     # Add users to group
+    adduser $user libvirtd
   elif version_gt $KARMIC $version; then
     echo "Installing KVM for ealier version of Ubuntu "$KARMIC
     aptitude install -y kvm libvirt-bin ubuntu-vm-builder bridge-utils
-  fi
-
-  # Add users to group
-  # After this, you need to relogin so that your user becomes an effective member of the libvirtd group.
-
-  if version_gt $version $LUCID; then
-    adduser $user libvirtd
-  elif version_gt $KARMIC $version; then
     adduser $user kvm
     adduser $user libvirtd
   fi
