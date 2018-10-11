@@ -7,5 +7,5 @@ KVM installation script for:
 
 Run:
 ```
-sudo ./install.sh $USER
+sudo ./install.sh
 ```
